@@ -7,9 +7,12 @@ import {
   FileText, 
   Settings, 
   ChevronLeft,
-  Users, 
   FilePlus,
-  FileX
+  FileX,
+  Info,
+  ChartBar,
+  ArrowDownUp,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/hooks/useSidebar';
@@ -54,12 +57,12 @@ const Sidebar = () => {
     { path: "/budget-setup", label: "Budget Setup", icon: FileText },
     { path: "/budget-proposal", label: "Budget Proposal", icon: FilePlus },
     { path: "/budget-review", label: "Review & Adjust", icon: FileText },
-    { path: "/budget-transfer", label: "Budget Transfer", icon: FileText },
+    { path: "/budget-transfer", label: "Budget Transfer", icon: ArrowDownUp },
     { path: "/budget-extension", label: "Extension Request", icon: FileX },
-    { path: "/budget-approval", label: "Extension Approval", icon: FileText },
-    { path: "/budget-reporting", label: "Reporting & Audit", icon: FileText },
+    { path: "/budget-approval", label: "Extension Approval", icon: Check },
+    { path: "/budget-reporting", label: "Reporting & Audit", icon: ChartBar },
     { path: "/admin", label: "Administration", icon: Settings },
-    { path: "/expense-validation", label: "Expense Validation", icon: FileText },
+    { path: "/expense-validation", label: "Expense Validation", icon: Info },
   ];
 
   if (!isOpen) {
