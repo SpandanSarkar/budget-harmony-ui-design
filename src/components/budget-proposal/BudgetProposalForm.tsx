@@ -334,7 +334,6 @@ const units = [
 
 const formSchema = z.object({
   headId: z.string().min(1, { message: 'Please select a head' }),
-  headName: z.string().min(1, { message: 'Please select a head' }),
   particularId: z.string().min(1, { message: 'Please select a particular' }),
   unitId: z.string().min(1, { message: 'Please select a unit' }),
   proposedAmount: z.string().min(1, { message: 'Amount is required' }),
@@ -357,7 +356,6 @@ const BudgetProposalForm = ({ onSubmitSuccess }: BudgetProposalFormProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       headId: '',
-      headName: '',
       particularId: '',
       unitId: '',
       proposedAmount: '',
