@@ -165,7 +165,7 @@ const BudgetProposalTable = ({ proposals }: BudgetProposalTableProps) => {
           <TableBody>
             {proposals.map((proposal, index) => (
               <TableRow key={index}>
-                <TableCell>{proposal.headName}</TableCell>
+                <TableCell>{proposal.headId}</TableCell>
                 <TableCell>{proposal.particularName}</TableCell>
                 <TableCell>{proposal.unitName}</TableCell>
                 <TableCell className="text-right">${parseFloat(proposal.proposedAmount).toLocaleString()}</TableCell>
