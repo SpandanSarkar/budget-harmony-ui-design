@@ -400,7 +400,7 @@ const BudgetProposalForm = ({ onSubmitSuccess }: BudgetProposalFormProps) => {
                   </FormControl>
                   <SelectContent>
                     {heads.map((head) => (
-                      <SelectItem key={head.id} value={head.name.toString()}>
+                      <SelectItem key={head.id} value={head.id.toString()}>
                         {head.name}
                       </SelectItem>
                     ))}
