@@ -1,0 +1,121 @@
+
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { 
+  Calendar, 
+  Home, 
+  FileText, 
+  Settings, 
+  ChevronLeft,
+  Users, 
+  FilePlus,
+  FileX
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useSidebar } from '@/hooks/useSidebar';
+import { cn } from '@/lib/utils';
+
+const MenuItem = ({ 
+  to, 
+  icon: Icon, 
+  label, 
+  isActive 
+}: { 
+  to: string; 
+  icon: React.ElementType; 
+  label: string; 
+  isActive: boolean 
+}) => {
+  return (
+    <Link to={to} className="w-full">
+      <Button
+        variant="ghost"
+        className={cn(
+          "w-full justify-start gap-3 px-3 font-normal",
+          isActive ? "bg-muted" : "hover:bg-muted/50"
+        )}
+      >
+        <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
+        <span className={cn(isActive ? "text-foreground" : "text-muted-foreground")}>
+          {label}
+        </span>
+      </Button>
+    </Link>
+  );
+};
+
+const Sidebar = () => {
+  const { isOpen, toggleSidebar } = useSidebar();
+  const location = useLocation();
+  
+  const menuItems = [
+    { path: "/", label: "Dashboard", icon: Home },
+    { path: "/budget-timeframe", label: "Budget Time Frame", icon: Calendar },
+    { path: "/budget-setup", label: "Budget Setup", icon: FileText },
+    { path: "/budget-proposal", label: "Budget Proposal", icon: FilePlus },
+    { path: "/budget-review", label: "Review & Adjust", icon: FileText },
+    { path: "/budget-transfer", label: "Budget Transfer", icon: FileText },
+    { path: "/budget-extension", label: "Extension Request", icon: FileX },
+    { path: "/budget-approval", label: "Extension Approval", icon: FileText },
+    { path: "/budget-reporting", label: "Reporting & Audit", icon: FileText },
+    { path: "/admin", label: "Administration", icon: Settings },
+    { path: "/expense-validation", label: "Expense Validation", icon: FileText },
+  ];
+
+  if (!isOpen) {
+    return (
+      <div className="fixed left-0 top-0 z-20 h-screen w-16 border-r bg-white transition-all duration-300">
+        <div className="flex h-16 items-center justify-center border-b">
+          <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+        </div>
+        <nav className="flex flex-col items-center gap-2 py-4">
+          {menuItems.map((item) => (
+            <Button
+              key={item.path}
+              variant="ghost"
+              size="icon"
+              asChild
+              className={cn(
+                location.pathname === item.path ? "bg-muted" : ""
+              )}
+            >
+              <Link to={item.path}>
+                <item.icon className={cn(
+                  "h-5 w-5",
+                  location.pathname === item.path ? "text-primary" : "text-muted-foreground"
+                )} />
+                <span className="sr-only">{item.label}</span>
+              </Link>
+            </Button>
+          ))}
+        </nav>
+      </div>
+    );
+  }
+  
+  return (
+    <aside className="fixed left-0 top-0 z-20 h-screen w-60 border-r bg-white transition-all duration-300">
+      <div className="flex h-16 items-center justify-between px-4 border-b">
+        <span className="text-lg font-semibold text-primary">Budget Module</span>
+        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+      </div>
+      <nav className="flex flex-col gap-1 p-2">
+        {menuItems.map((item) => (
+          <MenuItem
+            key={item.path}
+            to={item.path}
+            icon={item.icon}
+            label={item.label}
+            isActive={location.pathname === item.path}
+          />
+        ))}
+      </nav>
+    </aside>
+  );
+};
+
+export default Sidebar;
