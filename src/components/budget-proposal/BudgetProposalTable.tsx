@@ -165,9 +165,9 @@ const BudgetProposalTable = ({ proposals }: BudgetProposalTableProps) => {
           <TableBody>
             {proposals.map((proposal, index) => (
               <TableRow key={index}>
-                <TableCell>{proposal.headId}</TableCell>
-                <TableCell>{proposal.particularName}</TableCell>
-                <TableCell>{proposal.unitName}</TableCell>
+                <TableCell>{proposal.headName}</TableCell>
+                <TableCell>{proposal.particularId}</TableCell>
+                <TableCell>{proposal.unitId}</TableCell>
                 <TableCell className="text-right">${parseFloat(proposal.proposedAmount).toLocaleString()}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor('Pending')} variant="outline">
