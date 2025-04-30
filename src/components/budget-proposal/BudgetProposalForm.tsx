@@ -1,4 +1,5 @@
 
+
 // import React, { useState } from 'react';
 // import { z } from 'zod';
 // import { useForm } from 'react-hook-form';
@@ -19,19 +20,19 @@
 //   SelectItem,
 //   SelectTrigger,
 //   SelectValue,
-// } from '@/components/ui/form';
+// } from '@/components/ui/select';
 // import { Input } from '@/components/ui/input';
 // import { Textarea } from '@/components/ui/textarea';
 // import { toast } from 'sonner';
 // import { Info, Upload } from 'lucide-react';
-
+ 
 // // Mock data for dropdowns
 // const heads = [
 //   { id: 1, name: 'IT Department' },
 //   { id: 2, name: 'Finance Department' },
 //   { id: 3, name: 'Marketing Department' },
 // ];
-
+ 
 // const particulars = {
 //   1: [
 //     { id: 1, name: 'Software Licenses' },
@@ -46,13 +47,13 @@
 //     { id: 6, name: 'Events' },
 //   ],
 // };
-
+ 
 // const units = [
 //   { id: 1, name: 'Headquarters' },
 //   { id: 2, name: 'Regional Office' },
 //   { id: 3, name: 'Branch Office' },
 // ];
-
+ 
 // const formSchema = z.object({
 //   headId: z.string().min(1, { message: 'Please select a head' }),
 //   particularId: z.string().min(1, { message: 'Please select a particular' }),
@@ -62,13 +63,13 @@
 //   calculations: z.string().optional(),
 //   remarks: z.string().optional(),
 // });
-
+ 
 // type FormValues = z.infer<typeof formSchema>;
-
+ 
 // const BudgetProposalForm = () => {
 //   const [selectedHead, setSelectedHead] = useState<string | null>(null);
 //   const [isSubmitting, setIsSubmitting] = useState(false);
-
+ 
 //   const form = useForm<FormValues>({
 //     resolver: zodResolver(formSchema),
 //     defaultValues: {
@@ -80,7 +81,7 @@
 //       remarks: '',
 //     },
 //   });
-
+ 
 //   const onSubmit = async (data: FormValues) => {
 //     setIsSubmitting(true);
 //     // Simulate API call
@@ -92,7 +93,7 @@
 //       setIsSubmitting(false);
 //     }, 1000);
 //   };
-
+ 
 //   return (
 //     <Form {...form}>
 //       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -128,7 +129,7 @@
 //               </FormItem>
 //             )}
 //           />
-
+ 
 //           <FormField
 //             control={form.control}
 //             name="particularId"
@@ -158,7 +159,7 @@
 //               </FormItem>
 //             )}
 //           />
-
+ 
 //           <FormField
 //             control={form.control}
 //             name="unitId"
@@ -183,7 +184,7 @@
 //               </FormItem>
 //             )}
 //           />
-
+ 
 //           <FormField
 //             control={form.control}
 //             name="proposedAmount"
@@ -201,7 +202,7 @@
 //             )}
 //           />
 //         </div>
-
+ 
 //         <FormField
 //           control={form.control}
 //           name="supportingDocs"
@@ -224,7 +225,7 @@
 //             </FormItem>
 //           )}
 //         />
-
+ 
 //         <FormField
 //           control={form.control}
 //           name="calculations"
@@ -242,7 +243,7 @@
 //             </FormItem>
 //           )}
 //         />
-
+ 
 //         <FormField
 //           control={form.control}
 //           name="remarks"
@@ -260,7 +261,7 @@
 //             </FormItem>
 //           )}
 //         />
-
+ 
 //         <div className="flex items-center gap-2">
 //           <Button type="submit" disabled={isSubmitting}>
 //             {isSubmitting ? 'Submitting...' : 'Submit Proposal'}
@@ -273,8 +274,9 @@
 //     </Form>
 //   );
 // };
-
+ 
 // export default BudgetProposalForm;
+
 
 
 import React, { useState } from 'react';
@@ -301,15 +303,14 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
-import { Info, Upload } from 'lucide-react';
- 
-// Mock data for dropdowns
+import { Upload } from 'lucide-react';
+
 const heads = [
   { id: 1, name: 'IT Department' },
   { id: 2, name: 'Finance Department' },
   { id: 3, name: 'Marketing Department' },
 ];
- 
+
 const particulars = {
   1: [
     { id: 1, name: 'Software Licenses' },
@@ -324,13 +325,13 @@ const particulars = {
     { id: 6, name: 'Events' },
   ],
 };
- 
+
 const units = [
   { id: 1, name: 'Headquarters' },
   { id: 2, name: 'Regional Office' },
   { id: 3, name: 'Branch Office' },
 ];
- 
+
 const formSchema = z.object({
   headId: z.string().min(1, { message: 'Please select a head' }),
   particularId: z.string().min(1, { message: 'Please select a particular' }),
@@ -340,13 +341,17 @@ const formSchema = z.object({
   calculations: z.string().optional(),
   remarks: z.string().optional(),
 });
- 
+
 type FormValues = z.infer<typeof formSchema>;
- 
-const BudgetProposalForm = () => {
+
+type BudgetProposalFormProps = {
+  onSubmitSuccess?: (data: FormValues) => void;
+};
+
+const BudgetProposalForm = ({ onSubmitSuccess }: BudgetProposalFormProps) => {
   const [selectedHead, setSelectedHead] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
- 
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -358,19 +363,18 @@ const BudgetProposalForm = () => {
       remarks: '',
     },
   });
- 
+
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
-    // Simulate API call
     setTimeout(() => {
-      console.log('Submitting proposal:', data);
       toast.success('Budget proposal submitted successfully');
+      if (onSubmitSuccess) onSubmitSuccess(data);
       form.reset();
       setSelectedHead(null);
       setIsSubmitting(false);
     }, 1000);
   };
- 
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -406,7 +410,7 @@ const BudgetProposalForm = () => {
               </FormItem>
             )}
           />
- 
+
           <FormField
             control={form.control}
             name="particularId"
@@ -436,7 +440,7 @@ const BudgetProposalForm = () => {
               </FormItem>
             )}
           />
- 
+
           <FormField
             control={form.control}
             name="unitId"
@@ -461,7 +465,7 @@ const BudgetProposalForm = () => {
               </FormItem>
             )}
           />
- 
+
           <FormField
             control={form.control}
             name="proposedAmount"
@@ -479,7 +483,7 @@ const BudgetProposalForm = () => {
             )}
           />
         </div>
- 
+
         <FormField
           control={form.control}
           name="supportingDocs"
@@ -502,7 +506,7 @@ const BudgetProposalForm = () => {
             </FormItem>
           )}
         />
- 
+
         <FormField
           control={form.control}
           name="calculations"
@@ -520,7 +524,7 @@ const BudgetProposalForm = () => {
             </FormItem>
           )}
         />
- 
+
         <FormField
           control={form.control}
           name="remarks"
@@ -538,7 +542,7 @@ const BudgetProposalForm = () => {
             </FormItem>
           )}
         />
- 
+
         <div className="flex items-center gap-2">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Submitting...' : 'Submit Proposal'}
@@ -551,5 +555,6 @@ const BudgetProposalForm = () => {
     </Form>
   );
 };
- 
+
 export default BudgetProposalForm;
+
