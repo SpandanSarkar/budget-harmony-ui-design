@@ -34,12 +34,12 @@ const MenuItem = ({
       <Button
         variant="ghost"
         className={cn(
-          "w-full justify-start gap-3 px-3 font-normal",
-          isActive ? "bg-muted" : "hover:bg-muted/50"
+          "w-full justify-start gap-3 px-3 font-normal text-white",
+          isActive ? "bg-primary/60" : "hover:bg-primary/40"
         )}
       >
-        <Icon className={cn("h-5 w-5", isActive ? "text-primary" : "text-muted-foreground")} />
-        <span className={cn(isActive ? "text-foreground" : "text-muted-foreground")}>
+        <Icon className={cn("h-5 w-5", isActive ? "text-white" : "text-white/80")} />
+        <span className={cn(isActive ? "text-white" : "text-white/80")}>
           {label}
         </span>
       </Button>
@@ -67,9 +67,9 @@ const Sidebar = () => {
 
   if (!isOpen) {
     return (
-      <div className="fixed left-0 top-0 z-20 h-screen w-16 border-r bg-white transition-all duration-300">
-        <div className="flex h-16 items-center justify-center border-b">
-          <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+      <div className="fixed left-0 top-0 z-20 h-screen w-16 border-r bg-primary transition-all duration-300">
+        <div className="flex h-16 items-center justify-center border-b border-white/20">
+          <Button variant="ghost" size="icon" onClick={toggleSidebar} className="text-white">
             <ChevronLeft className="h-4 w-4" />
           </Button>
         </div>
@@ -81,13 +81,14 @@ const Sidebar = () => {
               size="icon"
               asChild
               className={cn(
-                location.pathname === item.path ? "bg-muted" : ""
+                "text-white",
+                location.pathname === item.path ? "bg-primary/60" : ""
               )}
             >
               <Link to={item.path}>
                 <item.icon className={cn(
                   "h-5 w-5",
-                  location.pathname === item.path ? "text-primary" : "text-muted-foreground"
+                  location.pathname === item.path ? "text-white" : "text-white/80"
                 )} />
                 <span className="sr-only">{item.label}</span>
               </Link>
@@ -99,10 +100,10 @@ const Sidebar = () => {
   }
   
   return (
-    <aside className="fixed left-0 top-0 z-20 h-screen w-60 border-r bg-white transition-all duration-300">
-      <div className="flex h-16 items-center justify-between px-4 border-b">
-        <span className="text-lg font-semibold text-primary">Budget Module</span>
-        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+    <aside className="fixed left-0 top-0 z-20 h-screen w-60 border-r bg-primary transition-all duration-300">
+      <div className="flex h-16 items-center justify-between px-4 border-b border-white/20">
+        <span className="text-lg font-semibold text-white">Budget Module</span>
+        <Button variant="ghost" size="icon" onClick={toggleSidebar} className="text-white">
           <ChevronLeft className="h-4 w-4" />
         </Button>
       </div>

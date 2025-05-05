@@ -26,11 +26,11 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#6E59A5',
+					DEFAULT: '#003B7A', // Dark blue from image
 					foreground: '#FFFFFF'
 				},
 				secondary: {
-					DEFAULT: '#0EA5E9',
+					DEFAULT: '#45C2E3', // Light blue from image
 					foreground: '#FFFFFF'
 				},
 				destructive: {
@@ -62,9 +62,9 @@ export default {
 					foreground: '#FFFFFF'
 				},
 				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: '#6E59A5',
+					DEFAULT: '#003B7A', // Dark blue from image
+					foreground: '#FFFFFF',
+					primary: '#003B7A', // Dark blue from image
 					'primary-foreground': '#FFFFFF',
 					accent: 'hsl(var(--sidebar-accent))',
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
