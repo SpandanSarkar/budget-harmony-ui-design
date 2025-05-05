@@ -19,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { CalendarIcon } from 'lucide-react';
@@ -132,7 +132,7 @@ const BudgetTransferForm = () => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select head" />
                       </SelectTrigger>
                     </FormControl>
@@ -165,7 +165,7 @@ const BudgetTransferForm = () => {
                     disabled={!fromSelectedHead}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select particular" />
                       </SelectTrigger>
                     </FormControl>
@@ -195,7 +195,7 @@ const BudgetTransferForm = () => {
                     disabled={!fromSelectedParticular}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select GL" />
                       </SelectTrigger>
                     </FormControl>
@@ -235,11 +235,11 @@ const BudgetTransferForm = () => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select head" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent sx={{background:"red"}}>
+                    <SelectContent>
                       {heads.map((head) => (
                         <SelectItem key={head.id} value={head.id.toString()}>
                           {head.name}
@@ -268,7 +268,7 @@ const BudgetTransferForm = () => {
                     disabled={!toSelectedHead}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select particular" />
                       </SelectTrigger>
                     </FormControl>
@@ -298,7 +298,7 @@ const BudgetTransferForm = () => {
                     disabled={!toSelectedParticular}
                   >
                     <FormControl>
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white">
                         <SelectValue placeholder="Select GL" />
                       </SelectTrigger>
                     </FormControl>

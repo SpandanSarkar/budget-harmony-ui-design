@@ -19,7 +19,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
@@ -123,7 +123,7 @@ const BudgetExtensionForm = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select head" />
                     </SelectTrigger>
                   </FormControl>
@@ -158,7 +158,7 @@ const BudgetExtensionForm = () => {
                   disabled={!selectedHead}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white">
                       <SelectValue placeholder="Select particular" />
                     </SelectTrigger>
                   </FormControl>

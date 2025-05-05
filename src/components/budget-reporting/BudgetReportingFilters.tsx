@@ -8,7 +8,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/components/ui/select';
 import { toast } from 'sonner';
 
 // Mock data for dropdowns
@@ -37,13 +37,19 @@ const BudgetReportingFilters = () => {
   const [selectedReportType, setSelectedReportType] = useState('1');
 
   const handleApplyFilters = () => {
+    const yearName = fiscalYears.find(y => y.id.toString() === selectedYear)?.name || '';
+    const headName = heads.find(h => h.id.toString() === selectedHead)?.name || '';
+    const reportTypeName = reportTypes.find(r => r.id.toString() === selectedReportType)?.name || '';
+    
     console.log('Applied report filters:', {
       year: selectedYear,
       head: selectedHead,
       reportType: selectedReportType,
     });
     
-    toast.success('Report filters applied');
+    toast.success('Report filters applied', {
+      description: `Year: ${yearName}, Head: ${headName}, Report Type: ${reportTypeName}`
+    });
   };
 
   const handleExportPDF = () => {
@@ -64,7 +70,7 @@ const BudgetReportingFilters = () => {
         <div className="space-y-2">
           <Label htmlFor="fiscal-year">Financial Year</Label>
           <Select onValueChange={setSelectedYear} defaultValue={selectedYear}>
-            <SelectTrigger id="fiscal-year" className="w-full">
+            <SelectTrigger id="fiscal-year" className="w-full bg-white">
               <SelectValue placeholder="Select year" />
             </SelectTrigger>
             <SelectContent>
@@ -80,7 +86,7 @@ const BudgetReportingFilters = () => {
         <div className="space-y-2">
           <Label htmlFor="head">Head / Particular</Label>
           <Select onValueChange={setSelectedHead} defaultValue={selectedHead}>
-            <SelectTrigger id="head" className="w-full">
+            <SelectTrigger id="head" className="w-full bg-white">
               <SelectValue placeholder="Select head" />
             </SelectTrigger>
             <SelectContent>
@@ -96,7 +102,7 @@ const BudgetReportingFilters = () => {
         <div className="space-y-2">
           <Label htmlFor="report-type">Report Type</Label>
           <Select onValueChange={setSelectedReportType} defaultValue={selectedReportType}>
-            <SelectTrigger id="report-type" className="w-full">
+            <SelectTrigger id="report-type" className="w-full bg-white">
               <SelectValue placeholder="Select report type" />
             </SelectTrigger>
             <SelectContent>
