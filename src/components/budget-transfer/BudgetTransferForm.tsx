@@ -239,7 +239,7 @@ const BudgetTransferForm = () => {
                         <SelectValue placeholder="Select head" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent sx={{background:"red"}}>
                       {heads.map((head) => (
                         <SelectItem key={head.id} value={head.id.toString()}>
                           {head.name}
