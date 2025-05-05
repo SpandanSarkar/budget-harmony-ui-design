@@ -12,6 +12,28 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { FileText } from 'lucide-react';
 
+// Mock data for lookups
+const heads = {
+  1: 'IT Department',
+  2: 'Finance Department',
+  3: 'Marketing Department'
+};
+
+const particulars = {
+  1: 'Software Licenses',
+  2: 'Hardware Maintenance',
+  3: 'Audit Fees',
+  4: 'Consulting Services',
+  5: 'Advertising',
+  6: 'Events'
+};
+
+const units = {
+  1: 'Headquarters',
+  2: 'Regional Office',
+  3: 'Branch Office'
+};
+
 type BudgetProposalTableProps = {
   proposals: any[];
 };
@@ -47,9 +69,9 @@ const BudgetProposalTable = ({ proposals }: BudgetProposalTableProps) => {
           <TableBody>
             {proposals.map((proposal, index) => (
               <TableRow key={index}>
-                <TableCell>{proposal.headId}</TableCell>
-                <TableCell>{proposal.particularId}</TableCell>
-                <TableCell>{proposal.unitId}</TableCell>
+                <TableCell>{heads[proposal.headId] || `Head ${proposal.headId}`}</TableCell>
+                <TableCell>{particulars[proposal.particularId] || `Particular ${proposal.particularId}`}</TableCell>
+                <TableCell>{units[proposal.unitId] || `Unit ${proposal.unitId}`}</TableCell>
                 <TableCell className="text-right">${parseFloat(proposal.proposedAmount).toLocaleString()}</TableCell>
                 <TableCell>
                   <Badge className={getStatusColor('Pending')} variant="outline">

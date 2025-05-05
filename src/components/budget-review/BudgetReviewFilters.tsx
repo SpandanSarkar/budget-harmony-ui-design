@@ -6,9 +6,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@radix-ui/react-select';
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { toast } from 'sonner';
 
 // Mock data for dropdowns
 const fiscalYears = [
@@ -49,6 +50,15 @@ const BudgetReviewFilters = () => {
   const [selectedParticular, setSelectedParticular] = useState('0');
 
   const handleApplyFilters = () => {
+    const yearName = fiscalYears.find(y => y.id.toString() === selectedYear)?.name || '';
+    const headName = heads.find(h => h.id.toString() === selectedHead)?.name || '';
+    const particularObj = particulars[parseInt(selectedHead)].find(p => p.id.toString() === selectedParticular);
+    const particularName = particularObj ? particularObj.name : '';
+
+    toast.success('Filters applied successfully', {
+      description: `Year: ${yearName}, Head: ${headName}, Particular: ${particularName}`
+    });
+    
     console.log('Applied filters:', {
       year: selectedYear,
       head: selectedHead,

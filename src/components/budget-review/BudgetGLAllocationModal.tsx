@@ -18,6 +18,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { toast } from 'sonner';
 import { X } from 'lucide-react';
 
@@ -39,6 +46,7 @@ const BudgetGLAllocationModal = ({ open, onOpenChange, item }) => {
   const [availableGLs, setAvailableGLs] = useState([]);
   const [totalPercentage, setTotalPercentage] = useState(0);
   const [finalAmount, setFinalAmount] = useState(0);
+  const [selectedGL, setSelectedGL] = useState("");
 
   useEffect(() => {
     if (item) {
@@ -59,6 +67,10 @@ const BudgetGLAllocationModal = ({ open, onOpenChange, item }) => {
       // Set available GLs (those not already allocated)
       const allocatedGLIds = updatedAllocations.map(a => a.glId);
       setAvailableGLs(glOptions.filter(gl => !allocatedGLIds.includes(gl.id)));
+      
+      if (availableGLs.length > 0) {
+        setSelectedGL(availableGLs[0].id.toString());
+      }
     }
   }, [item]);
 
@@ -76,18 +88,24 @@ const BudgetGLAllocationModal = ({ open, onOpenChange, item }) => {
   };
 
   const handleAddGL = () => {
-    if (availableGLs.length === 0) {
+    if (!selectedGL || availableGLs.length === 0) {
       toast.error('No more GL accounts available');
       return;
     }
     
+    const glId = parseInt(selectedGL);
     setAllocations([
       ...allocations,
-      { glId: availableGLs[0].id, percentage: 0, amount: 0 }
+      { glId: glId, percentage: 0, amount: 0 }
     ]);
     
     // Update available GLs
-    setAvailableGLs(availableGLs.slice(1));
+    setAvailableGLs(availableGLs.filter(gl => gl.id !== glId));
+    if (availableGLs.length > 1) {
+      setSelectedGL(availableGLs.find(gl => gl.id !== glId)?.id.toString() || "");
+    } else {
+      setSelectedGL("");
+    }
   };
 
   const handleRemoveGL = (index) => {
@@ -100,6 +118,9 @@ const BudgetGLAllocationModal = ({ open, onOpenChange, item }) => {
     const removedGL = glOptions.find(gl => gl.id === removed.glId);
     if (removedGL) {
       setAvailableGLs([...availableGLs, removedGL]);
+      if (!selectedGL) {
+        setSelectedGL(removedGL.id.toString());
+      }
     }
     
     // Recalculate total percentage
@@ -131,9 +152,27 @@ const BudgetGLAllocationModal = ({ open, onOpenChange, item }) => {
           <div className="text-sm font-medium">
             Current Total: <span className={totalPercentage === 100 ? 'text-green-500' : 'text-red-500'}>{totalPercentage}%</span>
           </div>
-          <Button onClick={handleAddGL} disabled={availableGLs.length === 0}>
-            Add GL
-          </Button>
+          <div className="flex space-x-2">
+            <Select
+              value={selectedGL}
+              onValueChange={setSelectedGL}
+              disabled={availableGLs.length === 0}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select GL" />
+              </SelectTrigger>
+              <SelectContent>
+                {availableGLs.map((gl) => (
+                  <SelectItem key={gl.id} value={gl.id.toString()}>
+                    {gl.code} - {gl.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <Button onClick={handleAddGL} disabled={availableGLs.length === 0 || !selectedGL}>
+              Add GL
+            </Button>
+          </div>
         </div>
         
         <div className="rounded-md border">
