@@ -54,7 +54,7 @@ const Sidebar = () => {
   const menuItems = [
     { path: "/", label: "Dashboard", icon: Home },
     { path: "/budget-timeframe", label: "Budget Time Frame", icon: Calendar },
-    { path: "/budget-setup", label: "Budget Setup", icon: FileText },
+    { path: "/budget-setup", label: "Head & GL Config", icon: FileText },
     { path: "/budget-proposal", label: "Budget Proposal", icon: FilePlus },
     { path: "/budget-review", label: "Review & Adjust", icon: FileText },
     { path: "/budget-transfer", label: "Budget Transfer", icon: ArrowDownUp },

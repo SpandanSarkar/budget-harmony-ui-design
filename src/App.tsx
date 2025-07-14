@@ -8,7 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import AppLayout from "./components/layout/AppLayout";
 import TimeFramePage from "./pages/TimeFramePage";
-import BudgetSetupPage from "./pages/BudgetSetupPage";
+import HeadGLConfigPage from "./pages/BudgetSetupPage";
 import BudgetProposalPage from "./pages/BudgetProposalPage";
 import BudgetReviewPage from "./pages/BudgetReviewPage";
 import BudgetTransferPage from "./pages/BudgetTransferPage";
@@ -30,7 +30,7 @@ const App = () => (
           <Route element={<AppLayout />}>
             <Route path="/" element={<Index />} />
             <Route path="/budget-timeframe" element={<TimeFramePage />} />
-            <Route path="/budget-setup" element={<BudgetSetupPage />} />
+            <Route path="/budget-setup" element={<HeadGLConfigPage />} />
             <Route path="/budget-proposal" element={<BudgetProposalPage />} />
             <Route path="/budget-review" element={<BudgetReviewPage />} />
             <Route path="/budget-transfer" element={<BudgetTransferPage />} />

@@ -2,220 +2,211 @@
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import HeadsForm from '@/components/budget-setup/HeadsForm';
-import HeadsTable from '@/components/budget-setup/HeadsTable';
-import ParticularsForm from '@/components/budget-setup/ParticularsForm';
-import ParticularsTable from '@/components/budget-setup/ParticularsTable';
+import ExpenseHeadForm from '@/components/head-gl-config/ExpenseHeadForm';
+import ExpenseHeadTable, { ExpenseHead } from '@/components/head-gl-config/ExpenseHeadTable';
+import IncomeHeadForm from '@/components/head-gl-config/IncomeHeadForm';
+import IncomeHeadTable, { IncomeHead } from '@/components/head-gl-config/IncomeHeadTable';
 import { toast } from 'sonner';
 
 // Mock data
-const MOCK_HEADS = [
+const MOCK_EXPENSE_HEADS: ExpenseHead[] = [
   {
     id: '1',
-    headName: 'Operations',
-    type: 'department' as const,
-    status: 'active' as const,
+    expenseGroup: 'Admin',
+    expenseHeadName: 'Office Supplies',
+    glCode: '5001',
+    fsTag: 'P&L',
+    dimensionTemplate: ['Unit', 'Quantity'],
+    status: true,
   },
   {
     id: '2',
-    headName: 'Marketing',
-    type: 'department' as const,
-    status: 'active' as const,
-  },
-  {
-    id: '3',
-    headName: 'IT Projects',
-    type: 'program' as const,
-    status: 'active' as const,
+    expenseGroup: 'HR',
+    expenseHeadName: 'Employee Salaries',
+    glCode: '5002',
+    fsTag: 'P&L',
+    dimensionTemplate: ['Designation', 'Unit'],
+    status: true,
   },
 ];
 
-const MOCK_PARTICULARS = [
+const MOCK_INCOME_HEADS: IncomeHead[] = [
   {
     id: '1',
-    particularName: 'Salaries',
-    headId: '1',
-    headName: 'Operations',
-    fsTag: 'p&l' as const,
+    incomeCategory: 'Operating',
+    incomeHeadName: 'Interest Income',
+    glCode: '4001',
+    fsTag: 'P&L',
+    headType: 'Loan-based',
+    status: true,
   },
   {
     id: '2',
-    particularName: 'Office Rent',
-    headId: '1',
-    headName: 'Operations',
-    fsTag: 'p&l' as const,
-  },
-  {
-    id: '3',
-    particularName: 'Ad Campaigns',
-    headId: '2',
-    headName: 'Marketing',
-    fsTag: 'p&l' as const,
+    incomeCategory: 'Operating',
+    incomeHeadName: 'Fee Income',
+    glCode: '4002',
+    fsTag: 'P&L',
+    headType: 'Regular',
+    status: true,
   },
 ];
 
-const BudgetSetupPage = () => {
-  const [heads, setHeads] = useState(MOCK_HEADS);
-  const [particulars, setParticulars] = useState(MOCK_PARTICULARS);
-  const [editingHeadId, setEditingHeadId] = useState<string | null>(null);
-  const [editingParticularId, setEditingParticularId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState('heads');
+const HeadGLConfigPage = () => {
+  const [expenseHeads, setExpenseHeads] = useState(MOCK_EXPENSE_HEADS);
+  const [incomeHeads, setIncomeHeads] = useState(MOCK_INCOME_HEADS);
+  const [editingExpenseHeadId, setEditingExpenseHeadId] = useState<string | null>(null);
+  const [editingIncomeHeadId, setEditingIncomeHeadId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('expense');
 
-  const handleHeadSubmit = (data: any) => {
-    if (editingHeadId) {
-      // Update existing head
-      setHeads(heads.map(h => 
-        h.id === editingHeadId ? { ...h, ...data } : h
+  const handleExpenseHeadSubmit = (data: any) => {
+    if (editingExpenseHeadId) {
+      // Update existing expense head
+      setExpenseHeads(expenseHeads.map(h => 
+        h.id === editingExpenseHeadId ? { ...h, ...data } : h
       ));
-      toast.success("Budget head updated");
-      setEditingHeadId(null);
+      toast.success("Expense head updated");
+      setEditingExpenseHeadId(null);
     } else {
-      // Create new head
+      // Create new expense head
       const newHead = {
         id: Date.now().toString(),
         ...data,
       };
-      setHeads([...heads, newHead]);
-      toast.success("Budget head created");
+      setExpenseHeads([...expenseHeads, newHead]);
+      toast.success("Expense head created");
     }
   };
 
-  const handleParticularSubmit = (data: any) => {
-    const headName = heads.find(h => h.id === data.headId)?.headName || '';
-    
-    if (editingParticularId) {
-      // Update existing particular
-      setParticulars(particulars.map(p => 
-        p.id === editingParticularId ? { ...p, ...data, headName } : p
+  const handleIncomeHeadSubmit = (data: any) => {
+    if (editingIncomeHeadId) {
+      // Update existing income head
+      setIncomeHeads(incomeHeads.map(h => 
+        h.id === editingIncomeHeadId ? { ...h, ...data } : h
       ));
-      toast.success("Particular updated");
-      setEditingParticularId(null);
+      toast.success("Income head updated");
+      setEditingIncomeHeadId(null);
     } else {
-      // Create new particular
-      const newParticular = {
+      // Create new income head
+      const newHead = {
         id: Date.now().toString(),
         ...data,
-        headName,
       };
-      setParticulars([...particulars, newParticular]);
-      toast.success("Particular created");
+      setIncomeHeads([...incomeHeads, newHead]);
+      toast.success("Income head created");
     }
   };
 
-  const handleEditHead = (id: string) => {
-    const head = heads.find(h => h.id === id);
+  const handleEditExpenseHead = (id: string) => {
+    const head = expenseHeads.find(h => h.id === id);
     if (head) {
-      setEditingHeadId(id);
-      setActiveTab('heads');
+      setEditingExpenseHeadId(id);
+      setActiveTab('expense');
     }
   };
 
-  const handleDeleteHead = (id: string) => {
-    setHeads(heads.filter(h => h.id !== id));
-    // Also delete all particulars linked to this head
-    setParticulars(particulars.filter(p => p.headId !== id));
-    toast.success("Budget head and linked particulars removed");
+  const handleDeleteExpenseHead = (id: string) => {
+    setExpenseHeads(expenseHeads.filter(h => h.id !== id));
+    toast.success("Expense head removed");
   };
 
-  const handleEditParticular = (id: string) => {
-    const particular = particulars.find(p => p.id === id);
-    if (particular) {
-      setEditingParticularId(id);
-      setActiveTab('particulars');
+  const handleEditIncomeHead = (id: string) => {
+    const head = incomeHeads.find(h => h.id === id);
+    if (head) {
+      setEditingIncomeHeadId(id);
+      setActiveTab('income');
     }
   };
 
-  const handleDeleteParticular = (id: string) => {
-    setParticulars(particulars.filter(p => p.id !== id));
-    toast.success("Particular removed");
+  const handleDeleteIncomeHead = (id: string) => {
+    setIncomeHeads(incomeHeads.filter(h => h.id !== id));
+    toast.success("Income head removed");
   };
 
-  const editingHead = editingHeadId 
-    ? heads.find(h => h.id === editingHeadId) 
+  const editingExpenseHead = editingExpenseHeadId 
+    ? expenseHeads.find(h => h.id === editingExpenseHeadId) 
     : undefined;
 
-  const editingParticular = editingParticularId 
-    ? particulars.find(p => p.id === editingParticularId) 
+  const editingIncomeHead = editingIncomeHeadId 
+    ? incomeHeads.find(h => h.id === editingIncomeHeadId) 
     : undefined;
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Budget Head & Particular Setup</h1>
-        <p className="text-muted-foreground">Configure budget structures and categories.</p>
+        <h1 className="text-3xl font-bold tracking-tight">Head & GL Configuration</h1>
+        <p className="text-muted-foreground">Configure expense and income heads with GL mapping.</p>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-2 max-w-md">
-          <TabsTrigger value="heads">Heads Management</TabsTrigger>
-          <TabsTrigger value="particulars">Particulars Management</TabsTrigger>
+          <TabsTrigger value="expense">Expense Head Setup</TabsTrigger>
+          <TabsTrigger value="income">Income Head Setup</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="heads" className="pt-6">
+        <TabsContent value="expense" className="pt-6">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>{editingHeadId ? 'Edit Head' : 'Create Head'}</CardTitle>
+                <CardTitle>{editingExpenseHeadId ? 'Edit Expense Head' : 'Create Expense Head'}</CardTitle>
                 <CardDescription>
-                  {editingHeadId 
-                    ? 'Update the selected budget head' 
-                    : 'Define a new budget head'}
+                  {editingExpenseHeadId 
+                    ? 'Update the selected expense head' 
+                    : 'Define a new expense head'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <HeadsForm 
-                  onSubmit={handleHeadSubmit}
-                  initialData={editingHead}
+                <ExpenseHeadForm 
+                  onSubmit={handleExpenseHeadSubmit}
+                  initialData={editingExpenseHead}
                 />
               </CardContent>
             </Card>
 
             <Card className="md:col-span-1">
               <CardHeader>
-                <CardTitle>Budget Heads</CardTitle>
-                <CardDescription>Manage your budget heads</CardDescription>
+                <CardTitle>Expense Heads</CardTitle>
+                <CardDescription>Manage your expense heads</CardDescription>
               </CardHeader>
               <CardContent>
-                <HeadsTable 
-                  data={heads} 
-                  onEdit={handleEditHead} 
-                  onDelete={handleDeleteHead}
+                <ExpenseHeadTable 
+                  data={expenseHeads} 
+                  onEdit={handleEditExpenseHead} 
+                  onDelete={handleDeleteExpenseHead}
                 />
               </CardContent>
             </Card>
           </div>
         </TabsContent>
         
-        <TabsContent value="particulars" className="pt-6">
+        <TabsContent value="income" className="pt-6">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>{editingParticularId ? 'Edit Particular' : 'Add Particular'}</CardTitle>
+                <CardTitle>{editingIncomeHeadId ? 'Edit Income Head' : 'Create Income Head'}</CardTitle>
                 <CardDescription>
-                  {editingParticularId 
-                    ? 'Update the selected budget particular' 
-                    : 'Define a new budget particular'}
+                  {editingIncomeHeadId 
+                    ? 'Update the selected income head' 
+                    : 'Define a new income head'}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ParticularsForm 
-                  onSubmit={handleParticularSubmit}
-                  initialData={editingParticular}
-                  heads={heads.filter(h => h.status === 'active')}
+                <IncomeHeadForm 
+                  onSubmit={handleIncomeHeadSubmit}
+                  initialData={editingIncomeHead}
                 />
               </CardContent>
             </Card>
 
             <Card className="md:col-span-1">
               <CardHeader>
-                <CardTitle>Budget Particulars</CardTitle>
-                <CardDescription>Manage your budget particulars</CardDescription>
+                <CardTitle>Income Heads</CardTitle>
+                <CardDescription>Manage your income heads</CardDescription>
               </CardHeader>
               <CardContent>
-                <ParticularsTable 
-                  data={particulars} 
-                  onEdit={handleEditParticular} 
-                  onDelete={handleDeleteParticular}
+                <IncomeHeadTable 
+                  data={incomeHeads} 
+                  onEdit={handleEditIncomeHead} 
+                  onDelete={handleDeleteIncomeHead}
                 />
               </CardContent>
             </Card>
@@ -226,4 +217,4 @@ const BudgetSetupPage = () => {
   );
 };
 
-export default BudgetSetupPage;
+export default HeadGLConfigPage;
