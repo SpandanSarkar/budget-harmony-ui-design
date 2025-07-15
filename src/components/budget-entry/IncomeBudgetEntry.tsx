@@ -452,10 +452,18 @@ const IncomeBudgetEntry = () => {
                         </TableCell>
                         <TableCell>
                           {head.headType === 'Loan-based' && (
-                            <Button variant="ghost" size="sm">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => navigate('/loan-interest-config')}
+                            >
                               <Settings className="h-4 w-4 mr-1" />
                               Configure Schedule
                             </Button>
+                            // <Button variant="ghost" size="sm">
+                            //   <Settings className="h-4 w-4 mr-1" />
+                            //   Configure Schedule
+                            // </Button>
                           )}
                         </TableCell>
                       </TableRow>
