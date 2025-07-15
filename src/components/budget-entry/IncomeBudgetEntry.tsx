@@ -255,7 +255,7 @@ const incomeCategories = ['Operating', 'Non-Operating'];
 const mockIncomeHeads = [
   {
     id: 1,
-    name: 'Interest on Loans',
+    name: 'IDA Credit No. 4643',
     category: 'Operating',
     headType: 'Loan-based',
     audited2024: 5250000,
@@ -264,6 +264,15 @@ const mockIncomeHeads = [
   },
   {
     id: 2,
+    name: 'ADB Loan No. 2454',
+    category: 'Operating',
+    headType: 'Loan-based',
+    audited2024: 7550000,
+    actual2025H1: 3625000,
+    dimensionTemplate: ['Unit', 'Loan Amount']
+  },
+  {
+    id: 3,
     name: 'Fee Income',
     category: 'Operating',
     headType: 'Regular',
