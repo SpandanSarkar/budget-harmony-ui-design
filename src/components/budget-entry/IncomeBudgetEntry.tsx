@@ -249,9 +249,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Settings } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate();
 const incomeCategories = ['Operating', 'Non-Operating'];
 
 const mockIncomeHeads = [
