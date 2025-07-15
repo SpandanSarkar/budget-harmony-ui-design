@@ -63,7 +63,7 @@
 //   const calculateTotal = (headId: number): number => {
 //     const data = budgetData[headId];
 //     if (!data) return 0;
-    
+
 //     let total = 0;
 //     for (let month = 1; month <= 12; month++) {
 //       total += parseFloat(data[`month_${month}`] || 0);
@@ -142,7 +142,7 @@
 //                     const projection2025 = parseFloat(headData.projection_2025 || 0);
 //                     const budget2026Total = calculateTotal(head.id);
 //                     const deviation2526 = calculateDeviation(budget2026Total, head.actual2025H1 * 2);
-                    
+
 //                     return (
 //                       <TableRow key={head.id}>
 //                         <TableCell className="font-medium">
@@ -249,6 +249,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const incomeCategories = ['Operating', 'Non-Operating'];
 
@@ -296,7 +298,7 @@ const IncomeBudgetEntry = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [budgetData, setBudgetData] = useState<Record<string, any>>({});
 
-  const filteredHeads = selectedCategory 
+  const filteredHeads = selectedCategory
     ? mockIncomeHeads.filter(head => head.category === selectedCategory)
     : [];
 
@@ -452,18 +454,14 @@ const IncomeBudgetEntry = () => {
                         </TableCell>
                         <TableCell>
                           {head.headType === 'Loan-based' && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => navigate('/loan-interest-config')}
-                            >
+
+                            <Button variant="ghost" size="sm">
                               <Settings className="h-4 w-4 mr-1" />
-                              Configure Schedule
+                              <Link to='/loan-interest-config'>
+                                Configure Schedule
+                              </Link>
+                              
                             </Button>
-                            // <Button variant="ghost" size="sm">
-                            //   <Settings className="h-4 w-4 mr-1" />
-                            //   Configure Schedule
-                            // </Button>
                           )}
                         </TableCell>
                       </TableRow>
