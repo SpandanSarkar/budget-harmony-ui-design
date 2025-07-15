@@ -281,7 +281,7 @@ const mockIncomeHeads = [
     dimensionTemplate: ['Unit', 'No. of Transactions']
   },
   {
-    id: 3,
+    id: 4,
     name: 'Investment Income',
     category: 'Non-Operating',
     headType: 'Regular',
