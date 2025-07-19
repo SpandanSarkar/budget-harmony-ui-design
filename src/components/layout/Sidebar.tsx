@@ -61,7 +61,7 @@ const Sidebar = () => {
     { path: "/budget-extension", label: "Extension Request", icon: FileX },
     { path: "/budget-approval", label: "Extension Approval", icon: Check },
     { path: "/budget-reporting", label: "Reporting & Audit", icon: ChartBar },
-    { path: "/management-budget-summary", label: "Management Budget Summary", icon: FileText },
+    { path: "/management-budget-summary", label: "Budget Summary", icon: FileText },
     { path: "/admin", label: "Administration", icon: Settings },
     { path: "/expense-validation", label: "Expense Validation", icon: Info },
   ];
