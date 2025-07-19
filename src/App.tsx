@@ -18,6 +18,7 @@ import BudgetReportingPage from "./pages/BudgetReportingPage";
 import AdminConfigPage from "./pages/AdminConfigPage";
 import ExpenseValidationPage from "./pages/ExpenseValidationPage";
 import LoanInterestConfigPage from "./pages/LoanInterestConfigPage";
+import ManagementBudgetSummaryPage from "./pages/ManagementBudgetSummaryPage";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
             <Route path="/admin" element={<AdminConfigPage />} />
             <Route path="/expense-validation" element={<ExpenseValidationPage />} />
             <Route path="/loan-interest-config" element={<LoanInterestConfigPage />} />
+            <Route path="/management-budget-summary" element={<ManagementBudgetSummaryPage />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
