@@ -17,7 +17,7 @@ type Particular = {
   particularName: string;
   headId: string;
   headName: string;
-  fsTag: 'p&l' | 'balance-sheet';
+  // fsTag: 'p&l' | 'balance-sheet';
 };
 
 type ParticularsTableProps = {
@@ -27,16 +27,16 @@ type ParticularsTableProps = {
 };
 
 const ParticularsTable = ({ data, onEdit, onDelete }: ParticularsTableProps) => {
-  const formatFsTag = (fsTag: Particular['fsTag']) => {
-    switch (fsTag) {
-      case 'p&l':
-        return 'P&L';
-      case 'balance-sheet':
-        return 'Balance Sheet';
-      default:
-        return fsTag;
-    }
-  };
+  // const formatFsTag = (fsTag: Particular['fsTag']) => {
+  //   switch (fsTag) {
+  //     case 'p&l':
+  //       return 'P&L';
+  //     case 'balance-sheet':
+  //       return 'Balance Sheet';
+  //     default:
+  //       return fsTag;
+  //   }
+  // };
 
   return (
     <div className="rounded-md border bg-white">
@@ -45,7 +45,7 @@ const ParticularsTable = ({ data, onEdit, onDelete }: ParticularsTableProps) => 
           <TableRow>
             <TableHead>Particular</TableHead>
             <TableHead>Linked Head</TableHead>
-            <TableHead>FS Tag</TableHead>
+            {/* <TableHead>FS Tag</TableHead> */}
             <TableHead className="w-[100px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -61,11 +61,11 @@ const ParticularsTable = ({ data, onEdit, onDelete }: ParticularsTableProps) => 
             <TableRow key={particular.id}>
               <TableCell className="font-medium">{particular.particularName}</TableCell>
               <TableCell>{particular.headName}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Badge variant="outline">
                   {formatFsTag(particular.fsTag)}
                 </Badge>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <div className="flex space-x-2">
                   <Button

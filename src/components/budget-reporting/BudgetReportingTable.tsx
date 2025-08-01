@@ -16,7 +16,7 @@ const reportData = [
     id: 1,
     head: 'IT Department',
     particular: 'Software Licenses',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 15000,
     approved: 15000,
     actual: 14200,
@@ -28,7 +28,7 @@ const reportData = [
     id: 2,
     head: 'IT Department',
     particular: 'Hardware Maintenance',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 6000,
     approved: 5800,
     actual: 5900,
@@ -40,7 +40,7 @@ const reportData = [
     id: 3,
     head: 'Finance Department',
     particular: 'Audit Fees',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 8000,
     approved: 8000,
     actual: 8000,
@@ -52,7 +52,7 @@ const reportData = [
     id: 4,
     head: 'Finance Department',
     particular: 'Consulting Services',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 10000,
     approved: 10000,
     actual: 9200,
@@ -64,7 +64,7 @@ const reportData = [
     id: 5,
     head: 'Marketing Department',
     particular: 'Advertising',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 12000,
     approved: 12000,
     actual: 12500,
@@ -76,7 +76,7 @@ const reportData = [
     id: 6,
     head: 'Marketing Department',
     particular: 'Events',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     proposed: 7500,
     approved: 7500,
     actual: 6700,
@@ -121,7 +121,7 @@ const BudgetReportingTable = () => {
             <TableRow>
               <TableHead>Head</TableHead>
               <TableHead>Particular</TableHead>
-              <TableHead>FS Tag</TableHead>
+              {/* <TableHead>FS Tag</TableHead> */}
               <TableHead className="text-right">Proposed</TableHead>
               <TableHead className="text-right">Approved</TableHead>
               <TableHead className="text-right">Actual</TableHead>
@@ -135,11 +135,11 @@ const BudgetReportingTable = () => {
               <TableRow key={item.id}>
                 <TableCell>{item.head}</TableCell>
                 <TableCell>{item.particular}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Badge variant="outline" className="bg-blue-50">
                     {item.fsTag}
                   </Badge>
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="text-right">${item.proposed.toLocaleString()}</TableCell>
                 <TableCell className="text-right">${item.approved.toLocaleString()}</TableCell>
                 <TableCell className="text-right">${item.actual.toLocaleString()}</TableCell>

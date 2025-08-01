@@ -26,7 +26,7 @@ const formSchema = z.object({
   incomeCategory: z.enum(['Operating', 'Non-Operating']),
   incomeHeadName: z.string().min(1, 'Income head name is required'),
   glCode: z.string().min(1, 'GL code is required'),
-  fsTag: z.enum(['P&L', 'Balance Sheet']),
+  // fsTag: z.enum(['P&L', 'Balance Sheet']),
   balanceSheetItemName: z.string().optional(),
   headType: z.enum(['Regular', 'Loan-based']),
   status: z.boolean().default(true)
@@ -46,7 +46,7 @@ const IncomeHeadForm: React.FC<IncomeHeadFormProps> = ({ onSubmit, initialData }
       incomeCategory: 'Operating',
       incomeHeadName: '',
       glCode: '',
-      fsTag: 'P&L',
+      // fsTag: 'P&L',
       balanceSheetItemName: '',
       headType: 'Regular',
       status: true,
@@ -54,7 +54,7 @@ const IncomeHeadForm: React.FC<IncomeHeadFormProps> = ({ onSubmit, initialData }
     }
   });
 
-  const fsTag = form.watch('fsTag');
+  // const fsTag = form.watch('fsTag');
 
   useEffect(() => {
     if (initialData) {
@@ -136,7 +136,7 @@ const IncomeHeadForm: React.FC<IncomeHeadFormProps> = ({ onSubmit, initialData }
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="fsTag"
           render={({ field }) => (
@@ -173,7 +173,7 @@ const IncomeHeadForm: React.FC<IncomeHeadFormProps> = ({ onSubmit, initialData }
               </FormItem>
             )}
           />
-        )}
+        )} */}
 
         <FormField
           control={form.control}

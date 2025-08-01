@@ -19,7 +19,7 @@ const budgetItems = [
     id: 1,
     head: 'IT Department',
     particular: 'Software Licenses',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     unit: 'Headquarters',
     proposedAmount: 15000,
     estimateAmount: 14000,
@@ -33,7 +33,7 @@ const budgetItems = [
     id: 2,
     head: 'Finance Department',
     particular: 'Audit Fees',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     unit: 'Headquarters',
     proposedAmount: 8000,
     estimateAmount: 7500,
@@ -47,7 +47,7 @@ const budgetItems = [
     id: 3,
     head: 'Marketing Department',
     particular: 'Advertising',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     unit: 'Regional Office',
     proposedAmount: 12500,
     estimateAmount: 10000,
@@ -61,7 +61,7 @@ const budgetItems = [
     id: 4,
     head: 'IT Department',
     particular: 'Hardware Maintenance',
-    fsTag: 'P&L',
+    // fsTag: 'P&L',
     unit: 'Branch Office',
     proposedAmount: 6000,
     estimateAmount: 5500,
@@ -107,7 +107,7 @@ const BudgetReviewTable = ({ onGLAllocation, view }) => {
           <TableRow>
             <TableHead>Head</TableHead>
             <TableHead>Particular</TableHead>
-            <TableHead>FS Tag</TableHead>
+            {/* <TableHead>FS Tag</TableHead> */}
             <TableHead>Unit</TableHead>
             <TableHead className="text-right">
               {view === 'proposed' && 'Proposed Amount'}
@@ -126,11 +126,11 @@ const BudgetReviewTable = ({ onGLAllocation, view }) => {
             <TableRow key={item.id}>
               <TableCell>{item.head}</TableCell>
               <TableCell>{item.particular}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Badge variant="outline" className={item.fsTag === 'P&L' ? 'bg-blue-100' : 'bg-green-100'}>
                   {item.fsTag}
                 </Badge>
-              </TableCell>
+              </TableCell> */}
               <TableCell>{item.unit}</TableCell>
               <TableCell className="text-right">${getAmountColumn(item)}</TableCell>
               <TableCell className="max-w-[200px] truncate" title={item.remarks}>{item.remarks}</TableCell>

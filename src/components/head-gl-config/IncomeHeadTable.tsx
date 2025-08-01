@@ -9,7 +9,7 @@ export interface IncomeHead {
   incomeCategory: 'Operating' | 'Non-Operating';
   incomeHeadName: string;
   glCode: string;
-  fsTag: 'P&L' | 'Balance Sheet';
+  // fsTag: 'P&L' | 'Balance Sheet';
   balanceSheetItemName?: string;
   headType: 'Regular' | 'Loan-based';
   status: boolean;
@@ -38,7 +38,7 @@ const IncomeHeadTable: React.FC<IncomeHeadTableProps> = ({ data, onEdit, onDelet
             <TableHead>Category</TableHead>
             <TableHead>Head Name</TableHead>
             <TableHead>GL Code</TableHead>
-            <TableHead>FS Tag</TableHead>
+            {/* <TableHead>FS Tag</TableHead> */}
             <TableHead>Head Type</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -54,11 +54,11 @@ const IncomeHeadTable: React.FC<IncomeHeadTableProps> = ({ data, onEdit, onDelet
               </TableCell>
               <TableCell className="font-medium">{head.incomeHeadName}</TableCell>
               <TableCell>{head.glCode}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Badge variant={head.fsTag === 'P&L' ? 'default' : 'secondary'}>
                   {head.fsTag}
                 </Badge>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <Badge variant={head.headType === 'Regular' ? 'outline' : 'default'}>
                   {head.headType}

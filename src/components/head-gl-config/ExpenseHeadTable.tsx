@@ -38,7 +38,7 @@ const ExpenseHeadTable: React.FC<ExpenseHeadTableProps> = ({ data, onEdit, onDel
             <TableHead>Group</TableHead>
             <TableHead>Head Name</TableHead>
             <TableHead>GL Code</TableHead>
-            <TableHead>FS Tag</TableHead>
+            {/* <TableHead>FS Tag</TableHead> */}
             <TableHead>Dimensions</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Actions</TableHead>
@@ -50,11 +50,11 @@ const ExpenseHeadTable: React.FC<ExpenseHeadTableProps> = ({ data, onEdit, onDel
               <TableCell className="font-medium">{head.expenseGroup}</TableCell>
               <TableCell>{head.expenseHeadName}</TableCell>
               <TableCell>{head.glCode}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Badge variant={head.fsTag === 'P&L' ? 'default' : 'secondary'}>
                   {head.fsTag}
                 </Badge>
-              </TableCell>
+              </TableCell> */}
               <TableCell>
                 <div className="flex flex-wrap gap-1">
                   {head.dimensionTemplate.slice(0, 2).map((dim) => (

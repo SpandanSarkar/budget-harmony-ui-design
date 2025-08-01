@@ -50,7 +50,7 @@ const formSchema = z.object({
   expenseGroup: z.string().min(1, 'Expense group is required'),
   expenseHeadName: z.string().min(1, 'Expense head name is required'),
   glCode: z.string().min(1, 'GL code is required'),
-  fsTag: z.enum(['P&L', 'Balance Sheet']),
+  // fsTag: z.enum(['P&L', 'Balance Sheet']),
   balanceSheetItemName: z.string().optional(),
   dimensionTemplate: z.array(z.string()).min(0),
   status: z.boolean().default(true)
@@ -70,7 +70,7 @@ const ExpenseHeadForm: React.FC<ExpenseHeadFormProps> = ({ onSubmit, initialData
       expenseGroup: '',
       expenseHeadName: '',
       glCode: '',
-      fsTag: 'P&L',
+      // fsTag: 'P&L',
       balanceSheetItemName: '',
       dimensionTemplate: [],
       status: true,
@@ -78,7 +78,7 @@ const ExpenseHeadForm: React.FC<ExpenseHeadFormProps> = ({ onSubmit, initialData
     }
   });
 
-  const fsTag = form.watch('fsTag');
+  // const fsTag = form.watch('fsTag');
 
   useEffect(() => {
     if (initialData) {
@@ -160,7 +160,7 @@ const ExpenseHeadForm: React.FC<ExpenseHeadFormProps> = ({ onSubmit, initialData
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="fsTag"
           render={({ field }) => (
@@ -197,7 +197,7 @@ const ExpenseHeadForm: React.FC<ExpenseHeadFormProps> = ({ onSubmit, initialData
               </FormItem>
             )}
           />
-        )}
+        )} */}
 
         <FormField
           control={form.control}
