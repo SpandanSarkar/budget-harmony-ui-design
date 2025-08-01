@@ -665,6 +665,7 @@ const BudgetReviewDetail = ({ submission, onBack }: BudgetReviewDetailProps) => 
 
   const buJulDec2025Total = monthlyData.slice(0, 6).reduce((sum, item) => sum + item.amount, 0);
   const reviewerJulDec2025Total = reviewData.slice(0, 6).reduce((sum, item) => sum + item.amount, 0);
+  const buJanDec2026Total = monthlyData.slice(6).reduce((sum, item) => sum + item.amount, 0);
   const reviewerJanDec2026Total = reviewData.slice(6).reduce((sum, item) => sum + item.amount, 0);
 
   const deviation2025vs2024 = ((reviewerJulDec2025Total + actualJanJun2025 - auditedTotal2024) / auditedTotal2024) * 100;
@@ -683,6 +684,26 @@ const BudgetReviewDetail = ({ submission, onBack }: BudgetReviewDetailProps) => 
           <p className="text-muted-foreground">Review and adjust budget details</p>
         </div>
       </div>
+
+      {/* Budget Info */}
+       <Card>
+         <CardHeader>
+           <CardTitle className="flex items-center justify-between">
+             Budget Details
+             <Badge variant="outline">{submission.status}</Badge>
+           </CardTitle>
+         </CardHeader>
+         <CardContent>
+           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+             <div><span className="font-medium text-muted-foreground">Budget Year:</span><p className="font-semibold">{submission.budgetYear}</p></div>
+             <div><span className="font-medium text-muted-foreground">Category:</span><p className="font-semibold">{submission.category}</p></div>
+             <div><span className="font-medium text-muted-foreground">Head Name:</span><p className="font-semibold">{submission.headName}</p></div>
+             <div><span className="font-medium text-muted-foreground">Group:</span><p className="font-semibold">{submission.group}</p></div>
+             <div><span className="font-medium text-muted-foreground">Submitted By:</span><p className="font-semibold">{submission.submittedBy}</p></div>
+             <div><span className="font-medium text-muted-foreground">Submission Date:</span><p className="font-semibold">{new Date(submission.submissionDate).toLocaleDateString()}</p></div>
+           </div>
+         </CardContent>
+       </Card>
 
       {/* Deviation Analysis (Moved up) */}
       <Card>
@@ -746,7 +767,7 @@ const BudgetReviewDetail = ({ submission, onBack }: BudgetReviewDetailProps) => 
                 ))}
                 <div className="border-t pt-2 flex flex-col gap-1 font-semibold text-sm">
                   <div className="flex justify-between">
-                    <span>BU Total (Read-only):</span><span>{buJulDec2025Total.toFixed(2)} Cr</span>
+                    <span>BU Total:</span><span>{buJulDec2025Total.toFixed(2)} Cr</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Reviewer Total:</span><span>{reviewerJulDec2025Total.toFixed(2)} Cr</span>
@@ -772,6 +793,9 @@ const BudgetReviewDetail = ({ submission, onBack }: BudgetReviewDetailProps) => 
                     />
                   </div>
                 ))}
+                <div className="flex justify-between">
+                    <span>BU Total:</span><span>{buJanDec2026Total.toFixed(2)} Cr</span>
+                  </div>
                 <div className="border-t pt-2 flex justify-between font-semibold">
                   <span>Reviewer Total:</span><span>{reviewerJanDec2026Total.toFixed(2)} Cr</span>
                 </div>
