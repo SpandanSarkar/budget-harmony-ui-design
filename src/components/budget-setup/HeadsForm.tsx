@@ -24,7 +24,8 @@ import { Button } from '@/components/ui/button';
 
 const formSchema = z.object({
   headName: z.string().min(2, { message: "Head name must be at least 2 characters" }),
-  type: z.enum(['department', 'unit', 'program'], { required_error: "Type is required" }),
+  // type: z.enum(['department', 'unit', 'program'], { required_error: "Type is required" }),
+  type: z.enum(['department', 'program'], { required_error: "Type is required" }),
   status: z.enum(['active', 'inactive'], { required_error: "Status is required" }),
 });
 
@@ -78,7 +79,7 @@ const HeadsForm = ({ onSubmit, initialData }: HeadsFormProps) => {
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="department">Department</SelectItem>
-                    <SelectItem value="unit">Unit</SelectItem>
+                    {/* <SelectItem value="unit">Unit</SelectItem> */}
                     <SelectItem value="program">Program</SelectItem>
                   </SelectContent>
                 </Select>

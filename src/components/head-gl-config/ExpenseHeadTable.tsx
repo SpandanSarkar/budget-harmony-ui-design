@@ -9,7 +9,7 @@ export interface ExpenseHead {
   expenseGroup: string;
   expenseHeadName: string;
   glCode: string;
-  fsTag: 'P&L' | 'Balance Sheet';
+  // fsTag: 'P&L' | 'Balance Sheet';
   balanceSheetItemName?: string;
   dimensionTemplate: string[];
   status: boolean;
