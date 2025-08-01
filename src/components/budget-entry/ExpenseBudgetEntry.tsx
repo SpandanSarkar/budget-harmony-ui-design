@@ -13,6 +13,8 @@ const expenseGroups = [
   'BUs', 'Corporate Advisory', 'Legal & SAM', 'Depreciation', 'F&A'
 ];
 
+const [files, setFiles] = useState<File[]>([]);
+
 // Correct month-year combination
 const months = [
   { month: 'July', year: '2025' },
@@ -203,10 +205,43 @@ const ExpenseBudgetEntry = () => {
               </TableBody>
             </Table>
 
+            {/* <div className="flex justify-end gap-2 mt-6">
+              <Button variant="outline">Save Draft</Button>
+              <Button>Submit for Approval</Button>
+            </div> */}
+            {/* Supporting Document Upload */}
+            <div className="mt-6 border p-4 rounded-md space-y-2">
+              <Label className="block text-sm font-medium">Supporting Documents</Label>
+              <div className="flex items-center gap-4">
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => setFiles(Array.from(e.target.files || []))}
+                  className="block w-full text-sm file:mr-4 file:py-2 file:px-4
+                    file:rounded file:border-0
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100"
+                />
+                <p className="text-sm text-muted-foreground">
+                  PDF, XLS, DOC formats supported
+                </p>
+              </div>
+              {files.length > 0 && (
+                <ul className="text-sm list-disc list-inside text-muted-foreground">
+                  {files.map((file, i) => (
+                    <li key={i}>{file.name}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Submit Buttons */}
             <div className="flex justify-end gap-2 mt-6">
               <Button variant="outline">Save Draft</Button>
               <Button>Submit for Approval</Button>
             </div>
+
+
           </CardContent>
         </Card>
       )}
