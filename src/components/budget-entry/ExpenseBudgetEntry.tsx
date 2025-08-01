@@ -13,8 +13,6 @@ const expenseGroups = [
   'BUs', 'Corporate Advisory', 'Legal & SAM', 'Depreciation', 'F&A'
 ];
 
-const [files, setFiles] = useState<File[]>([]);
-
 // Correct month-year combination
 const months = [
   { month: 'July', year: '2025' },
@@ -70,6 +68,7 @@ const ExpenseBudgetEntry = () => {
   const [selectedYear, setSelectedYear] = useState('2026');
   const [selectedGroup, setSelectedGroup] = useState('');
   const [budgetData, setBudgetData] = useState<Record<string, any>>({});
+  const [files, setFiles] = useState<File[]>([]);
 
   const filteredHeads = selectedGroup 
     ? mockExpenseHeads.filter(head => head.group === selectedGroup)
