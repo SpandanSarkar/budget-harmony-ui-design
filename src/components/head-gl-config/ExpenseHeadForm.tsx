@@ -26,7 +26,7 @@ const expenseGroups = [
 
 const dimensionTemplates = [
   'Designation',
-  'Unit',
+  // 'Unit',
   'Quantity', 
   'CAPEX/OPEX',
   'No. of Events',
