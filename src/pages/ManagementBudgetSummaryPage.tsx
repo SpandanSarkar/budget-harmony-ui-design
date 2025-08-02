@@ -469,302 +469,215 @@ const ManagementBudgetSummaryPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {groupedData ? (
-                  Object.entries(groupedData).map(([groupName, groupItems]) => (
+                {/* Income Section */}
+                <TableRow className="bg-green-50 border-l-4 border-l-green-500">
+                  <TableCell colSpan={8} className="font-bold text-green-700 text-lg">
+                    INCOME
+                  </TableCell>
+                </TableRow>
+                {filteredData.filter(item => item.type === 'Income').map((item) => {
+                  const diff2425 = calculateDifference(item.forecast2025, item.audited2024);
+                  const diff2526 = calculateDifference(item.budget2026, item.forecast2025);
+                  
+                  return (
                     <>
-                      <TableRow key={`group-${groupName}`} className="bg-muted/50">
-                        <TableCell colSpan={8} className="font-semibold">
-                          {groupName}
+                      <TableRow key={item.id}>
+                        <TableCell className="font-medium pl-4">
+                          <div className="flex items-center gap-2">
+                            {item.hasSubItems && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleExpanded(item.id)}
+                                className="h-6 w-6 p-0"
+                              >
+                                {expandedItems.has(item.id) ? (
+                                  <ChevronDown className="h-4 w-4" />
+                                ) : (
+                                  <ChevronRight className="h-4 w-4" />
+                                )}
+                              </Button>
+                            )}
+                            {item.particulars}
+                          </div>
                         </TableCell>
+                        <TableCell className="text-right">{formatAmount(item.audited2024)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(item.forecast2025)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(item.budget2026)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(diff2425.diff)}</TableCell>
+                        <TableCell className="text-right">{formatPercentage(diff2425.percentage)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(diff2526.diff)}</TableCell>
+                        <TableCell className="text-right">{formatPercentage(diff2526.percentage)}</TableCell>
                       </TableRow>
-                      {groupItems.map((item) => {
-                        const diff2425 = calculateDifference(item.forecast2025, item.audited2024);
-                        const diff2526 = calculateDifference(item.budget2026, item.forecast2025);
+                      
+                      {/* Sub-items */}
+                      {item.hasSubItems && expandedItems.has(item.id) && item.subItems?.map((subItem) => {
+                        const subDiff2425 = calculateDifference(subItem.forecast2025, subItem.audited2024);
+                        const subDiff2526 = calculateDifference(subItem.budget2026, subItem.forecast2025);
                         
                         return (
-                          <>
-                            <TableRow key={item.id}>
-                              <TableCell className="font-medium pl-8">
-                                <div className="flex items-center gap-2">
-                                  {item.hasSubItems && (
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => toggleExpanded(item.id)}
-                                      className="h-6 w-6 p-0"
-                                    >
-                                      {expandedItems.has(item.id) ? (
-                                        <ChevronDown className="h-4 w-4" />
-                                      ) : (
-                                        <ChevronRight className="h-4 w-4" />
-                                      )}
-                                    </Button>
-                                  )}
-                                  <span>{item.particulars}</span>
-                                </div>
-                              </TableCell>
-                              <TableCell className="text-right font-mono">{formatAmount(item.audited2024)}</TableCell>
-                              <TableCell className="text-right font-mono">{formatAmount(item.forecast2025)}</TableCell>
-                              <TableCell className="text-right font-mono">{formatAmount(item.budget2026)}</TableCell>
-                              <TableCell className={`text-right font-mono ${diff2425.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {formatAmount(Math.abs(diff2425.diff))}
-                              </TableCell>
-                              <TableCell className={`text-right font-mono ${diff2425.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {formatPercentage(diff2425.percentage)}
-                              </TableCell>
-                              <TableCell className={`text-right font-mono ${diff2526.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {formatAmount(Math.abs(diff2526.diff))}
-                              </TableCell>
-                              <TableCell className={`text-right font-mono ${diff2526.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                {formatPercentage(diff2526.percentage)}
-                              </TableCell>
-                            </TableRow>
-                            {item.hasSubItems && expandedItems.has(item.id) && item.subItems && (
-                              item.subItems.map((subItem) => {
-                                const subDiff2425 = calculateDifference(subItem.forecast2025, subItem.audited2024);
-                                const subDiff2526 = calculateDifference(subItem.budget2026, subItem.forecast2025);
-                                
-                                return (
-                                  <TableRow key={subItem.id} className="bg-muted/25">
-                                    <TableCell className="font-medium pl-16 text-sm text-muted-foreground">
-                                      → {subItem.particulars}
-                                    </TableCell>
-                                    <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.audited2024)}</TableCell>
-                                    <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.forecast2025)}</TableCell>
-                                    <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.budget2026)}</TableCell>
-                                    <TableCell className={`text-right font-mono text-sm ${subDiff2425.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                      {formatAmount(Math.abs(subDiff2425.diff))}
-                                    </TableCell>
-                                    <TableCell className={`text-right font-mono text-sm ${subDiff2425.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                      {formatPercentage(subDiff2425.percentage)}
-                                    </TableCell>
-                                    <TableCell className={`text-right font-mono text-sm ${subDiff2526.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                      {formatAmount(Math.abs(subDiff2526.diff))}
-                                    </TableCell>
-                                    <TableCell className={`text-right font-mono text-sm ${subDiff2526.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                      {formatPercentage(subDiff2526.percentage)}
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })
-                            )}
-                          </>
+                          <TableRow key={subItem.id} className="bg-muted/20">
+                            <TableCell className="pl-12 text-sm text-muted-foreground">
+                              → {subItem.particulars}
+                            </TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.audited2024)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.forecast2025)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.budget2026)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subDiff2425.diff)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatPercentage(subDiff2425.percentage)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subDiff2526.diff)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatPercentage(subDiff2526.percentage)}</TableCell>
+                          </TableRow>
                         );
                       })}
                     </>
-                  ))
-                ) : (
-                  <>
-                    {filteredData.map((item) => {
-                      const diff2425 = calculateDifference(item.forecast2025, item.audited2024);
-                      const diff2526 = calculateDifference(item.budget2026, item.forecast2025);
-                      
-                      return (
-                        <>
-                          <TableRow key={item.id}>
-                            <TableCell className="font-medium">
-                              <div className="flex items-center gap-2">
-                                {item.hasSubItems && (
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => toggleExpanded(item.id)}
-                                    className="h-6 w-6 p-0"
-                                  >
-                                    {expandedItems.has(item.id) ? (
-                                      <ChevronDown className="h-4 w-4" />
-                                    ) : (
-                                      <ChevronRight className="h-4 w-4" />
-                                    )}
-                                  </Button>
+                  );
+                })}
+
+                {/* Total Operating Income Row */}
+                <TableRow className="bg-green-100 border-t-2 border-green-300 font-semibold">
+                  <TableCell className="font-bold">Total Operating Income (A)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingIncome.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingIncome.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingIncome.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalOperatingIncome.forecast2025, totals.totalOperatingIncome.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalOperatingIncome.forecast2025, totals.totalOperatingIncome.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalOperatingIncome.budget2026, totals.totalOperatingIncome.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalOperatingIncome.budget2026, totals.totalOperatingIncome.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                {/* Expense Section */}
+                <TableRow className="bg-red-50 border-l-4 border-l-red-500">
+                  <TableCell colSpan={8} className="font-bold text-red-700 text-lg pt-6">
+                    EXPENSES
+                  </TableCell>
+                </TableRow>
+                {filteredData.filter(item => item.type === 'Expense').map((item) => {
+                  const diff2425 = calculateDifference(item.forecast2025, item.audited2024);
+                  const diff2526 = calculateDifference(item.budget2026, item.forecast2025);
+                  
+                  return (
+                    <>
+                      <TableRow key={item.id}>
+                        <TableCell className="font-medium pl-4">
+                          <div className="flex items-center gap-2">
+                            {item.hasSubItems && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => toggleExpanded(item.id)}
+                                className="h-6 w-6 p-0"
+                              >
+                                {expandedItems.has(item.id) ? (
+                                  <ChevronDown className="h-4 w-4" />
+                                ) : (
+                                  <ChevronRight className="h-4 w-4" />
                                 )}
-                                <span>{item.particulars}</span>
-                              </div>
+                              </Button>
+                            )}
+                            {item.particulars}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">{formatAmount(item.audited2024)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(item.forecast2025)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(item.budget2026)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(diff2425.diff)}</TableCell>
+                        <TableCell className="text-right">{formatPercentage(diff2425.percentage)}</TableCell>
+                        <TableCell className="text-right">{formatAmount(diff2526.diff)}</TableCell>
+                        <TableCell className="text-right">{formatPercentage(diff2526.percentage)}</TableCell>
+                      </TableRow>
+                      
+                      {/* Sub-items */}
+                      {item.hasSubItems && expandedItems.has(item.id) && item.subItems?.map((subItem) => {
+                        const subDiff2425 = calculateDifference(subItem.forecast2025, subItem.audited2024);
+                        const subDiff2526 = calculateDifference(subItem.budget2026, subItem.forecast2025);
+                        
+                        return (
+                          <TableRow key={subItem.id} className="bg-muted/20">
+                            <TableCell className="pl-12 text-sm text-muted-foreground">
+                              → {subItem.particulars}
                             </TableCell>
-                            <TableCell className="text-right font-mono">{formatAmount(item.audited2024)}</TableCell>
-                            <TableCell className="text-right font-mono">{formatAmount(item.forecast2025)}</TableCell>
-                            <TableCell className="text-right font-mono">{formatAmount(item.budget2026)}</TableCell>
-                            <TableCell className={`text-right font-mono ${diff2425.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {formatAmount(Math.abs(diff2425.diff))}
-                            </TableCell>
-                            <TableCell className={`text-right font-mono ${diff2425.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {formatPercentage(diff2425.percentage)}
-                            </TableCell>
-                            <TableCell className={`text-right font-mono ${diff2526.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {formatAmount(Math.abs(diff2526.diff))}
-                            </TableCell>
-                            <TableCell className={`text-right font-mono ${diff2526.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {formatPercentage(diff2526.percentage)}
-                            </TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.audited2024)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.forecast2025)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subItem.budget2026)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subDiff2425.diff)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatPercentage(subDiff2425.percentage)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatAmount(subDiff2526.diff)}</TableCell>
+                            <TableCell className="text-right text-sm">{formatPercentage(subDiff2526.percentage)}</TableCell>
                           </TableRow>
-                          {item.hasSubItems && expandedItems.has(item.id) && item.subItems && (
-                            item.subItems.map((subItem) => {
-                              const subDiff2425 = calculateDifference(subItem.forecast2025, subItem.audited2024);
-                              const subDiff2526 = calculateDifference(subItem.budget2026, subItem.forecast2025);
-                              
-                              return (
-                                <TableRow key={subItem.id} className="bg-muted/25">
-                                  <TableCell className="font-medium pl-12 text-sm text-muted-foreground">
-                                    → {subItem.particulars}
-                                  </TableCell>
-                                  <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.audited2024)}</TableCell>
-                                  <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.forecast2025)}</TableCell>
-                                  <TableCell className="text-right font-mono text-sm">{formatAmount(subItem.budget2026)}</TableCell>
-                                  <TableCell className={`text-right font-mono text-sm ${subDiff2425.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {formatAmount(Math.abs(subDiff2425.diff))}
-                                  </TableCell>
-                                  <TableCell className={`text-right font-mono text-sm ${subDiff2425.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {formatPercentage(subDiff2425.percentage)}
-                                  </TableCell>
-                                  <TableCell className={`text-right font-mono text-sm ${subDiff2526.diff >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {formatAmount(Math.abs(subDiff2526.diff))}
-                                  </TableCell>
-                                  <TableCell className={`text-right font-mono text-sm ${subDiff2526.percentage >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                    {formatPercentage(subDiff2526.percentage)}
-                                  </TableCell>
-                                </TableRow>
-                              );
-                            })
-                          )}
-                        </>
-                      );
-                    })}
-                    
-                    {/* Summary Rows */}
-                    <TableRow className="border-t-2 bg-blue-50">
-                      <TableCell className="font-bold">Total Operating Income (A)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingIncome.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingIncome.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingIncome.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-blue-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalOperatingIncome.forecast2025, totals.totalOperatingIncome.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-blue-600">
-                        {formatPercentage(calculateDifference(totals.totalOperatingIncome.forecast2025, totals.totalOperatingIncome.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-blue-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalOperatingIncome.budget2026, totals.totalOperatingIncome.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-blue-600">
-                        {formatPercentage(calculateDifference(totals.totalOperatingIncome.budget2026, totals.totalOperatingIncome.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="bg-red-50">
-                      <TableCell className="font-bold">Total Operating Expense (B)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingExpense.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingExpense.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalOperatingExpense.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-red-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalOperatingExpense.forecast2025, totals.totalOperatingExpense.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-red-600">
-                        {formatPercentage(calculateDifference(totals.totalOperatingExpense.forecast2025, totals.totalOperatingExpense.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-red-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalOperatingExpense.budget2026, totals.totalOperatingExpense.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-red-600">
-                        {formatPercentage(calculateDifference(totals.totalOperatingExpense.budget2026, totals.totalOperatingExpense.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="bg-green-50">
-                      <TableCell className="font-bold">Profit/(Loss) before Provision & Tax (C = A-B)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.profitBeforeProvision.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.profitBeforeProvision.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.profitBeforeProvision.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-green-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.profitBeforeProvision.forecast2025, totals.profitBeforeProvision.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-green-600">
-                        {formatPercentage(calculateDifference(totals.profitBeforeProvision.forecast2025, totals.profitBeforeProvision.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-green-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.profitBeforeProvision.budget2026, totals.profitBeforeProvision.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-green-600">
-                        {formatPercentage(calculateDifference(totals.profitBeforeProvision.budget2026, totals.profitBeforeProvision.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="bg-orange-50">
-                      <TableCell className="font-bold">Total Provision (D)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalProvision.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalProvision.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.totalProvision.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-orange-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalProvision.forecast2025, totals.totalProvision.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-orange-600">
-                        {formatPercentage(calculateDifference(totals.totalProvision.forecast2025, totals.totalProvision.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-orange-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.totalProvision.budget2026, totals.totalProvision.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-orange-600">
-                        {formatPercentage(calculateDifference(totals.totalProvision.budget2026, totals.totalProvision.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="bg-purple-50">
-                      <TableCell className="font-bold">Net Profit/(Loss) before Tax (E = C-D)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.netProfitBeforeTax.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.netProfitBeforeTax.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.netProfitBeforeTax.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-purple-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.netProfitBeforeTax.forecast2025, totals.netProfitBeforeTax.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-purple-600">
-                        {formatPercentage(calculateDifference(totals.netProfitBeforeTax.forecast2025, totals.netProfitBeforeTax.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-purple-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.netProfitBeforeTax.budget2026, totals.netProfitBeforeTax.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-purple-600">
-                        {formatPercentage(calculateDifference(totals.netProfitBeforeTax.budget2026, totals.netProfitBeforeTax.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="bg-gray-50">
-                      <TableCell className="font-bold">Tax expenses (F)</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.taxExpenses.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.taxExpenses.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold">{formatAmount(totals.taxExpenses.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-gray-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.taxExpenses.forecast2025, totals.taxExpenses.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-gray-600">
-                        {formatPercentage(calculateDifference(totals.taxExpenses.forecast2025, totals.taxExpenses.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-gray-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.taxExpenses.budget2026, totals.taxExpenses.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-gray-600">
-                        {formatPercentage(calculateDifference(totals.taxExpenses.budget2026, totals.taxExpenses.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                    
-                    <TableRow className="border-t-2 bg-emerald-100">
-                      <TableCell className="font-bold text-lg">Net Profit/(Loss) after Provision & Tax (G = E-F)</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg">{formatAmount(totals.netProfitAfterTax.audited2024)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg">{formatAmount(totals.netProfitAfterTax.forecast2025)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg">{formatAmount(totals.netProfitAfterTax.budget2026)}</TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg text-emerald-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.netProfitAfterTax.forecast2025, totals.netProfitAfterTax.audited2024).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg text-emerald-600">
-                        {formatPercentage(calculateDifference(totals.netProfitAfterTax.forecast2025, totals.netProfitAfterTax.audited2024).percentage)}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg text-emerald-600">
-                        {formatAmount(Math.abs(calculateDifference(totals.netProfitAfterTax.budget2026, totals.netProfitAfterTax.forecast2025).diff))}
-                      </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-lg text-emerald-600">
-                        {formatPercentage(calculateDifference(totals.netProfitAfterTax.budget2026, totals.netProfitAfterTax.forecast2025).percentage)}
-                      </TableCell>
-                    </TableRow>
-                  </>
-                )}
+                        );
+                      })}
+                    </>
+                  );
+                })}
+
+                {/* Total Operating Expense Row */}
+                <TableRow className="bg-red-100 border-t-2 border-red-300 font-semibold">
+                  <TableCell className="font-bold">Total Operating Expense (B)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingExpense.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingExpense.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalOperatingExpense.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalOperatingExpense.forecast2025, totals.totalOperatingExpense.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalOperatingExpense.forecast2025, totals.totalOperatingExpense.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalOperatingExpense.budget2026, totals.totalOperatingExpense.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalOperatingExpense.budget2026, totals.totalOperatingExpense.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                {/* Financial Summary Rows */}
+                <TableRow className="bg-blue-100 border-t-4 border-blue-500 font-bold">
+                  <TableCell className="font-bold">Profit/(Loss) before Provision & Tax (C) = (A-B)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.profitBeforeProvision.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.profitBeforeProvision.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.profitBeforeProvision.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.profitBeforeProvision.forecast2025, totals.profitBeforeProvision.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.profitBeforeProvision.forecast2025, totals.profitBeforeProvision.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.profitBeforeProvision.budget2026, totals.profitBeforeProvision.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.profitBeforeProvision.budget2026, totals.profitBeforeProvision.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                <TableRow className="bg-orange-100 font-semibold">
+                  <TableCell className="font-bold">Total Provision (D)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalProvision.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalProvision.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.totalProvision.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalProvision.forecast2025, totals.totalProvision.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalProvision.forecast2025, totals.totalProvision.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.totalProvision.budget2026, totals.totalProvision.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.totalProvision.budget2026, totals.totalProvision.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                <TableRow className="bg-purple-100 font-semibold">
+                  <TableCell className="font-bold">Net Profit/(Loss) before Tax (E) = (C-D)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitBeforeTax.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitBeforeTax.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitBeforeTax.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.netProfitBeforeTax.forecast2025, totals.netProfitBeforeTax.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.netProfitBeforeTax.forecast2025, totals.netProfitBeforeTax.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.netProfitBeforeTax.budget2026, totals.netProfitBeforeTax.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.netProfitBeforeTax.budget2026, totals.netProfitBeforeTax.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                <TableRow className="bg-yellow-100 font-semibold">
+                  <TableCell className="font-bold">Tax Expenses (F)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.taxExpenses.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.taxExpenses.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.taxExpenses.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.taxExpenses.forecast2025, totals.taxExpenses.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.taxExpenses.forecast2025, totals.taxExpenses.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.taxExpenses.budget2026, totals.taxExpenses.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.taxExpenses.budget2026, totals.taxExpenses.forecast2025).percentage)}</TableCell>
+                </TableRow>
+
+                <TableRow className="bg-gradient-to-r from-green-200 to-blue-200 border-t-4 border-gray-800 font-bold text-lg">
+                  <TableCell className="font-bold">Net Profit/(Loss) after Provision & Tax (G = E-F)</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitAfterTax.audited2024)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitAfterTax.forecast2025)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(totals.netProfitAfterTax.budget2026)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.netProfitAfterTax.forecast2025, totals.netProfitAfterTax.audited2024).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.netProfitAfterTax.forecast2025, totals.netProfitAfterTax.audited2024).percentage)}</TableCell>
+                  <TableCell className="text-right">{formatAmount(calculateDifference(totals.netProfitAfterTax.budget2026, totals.netProfitAfterTax.forecast2025).diff)}</TableCell>
+                  <TableCell className="text-right">{formatPercentage(calculateDifference(totals.netProfitAfterTax.budget2026, totals.netProfitAfterTax.forecast2025).percentage)}</TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </div>
